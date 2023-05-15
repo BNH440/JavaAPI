@@ -1,6 +1,8 @@
 package com.blakehaug.java_api;
 
-import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
 
 import java.util.Collection;
 

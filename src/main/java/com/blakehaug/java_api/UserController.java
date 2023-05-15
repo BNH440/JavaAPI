@@ -6,10 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class UserController {
     @Autowired
-    private UserDetailsServiceImpl userDetailsRepository;
+    private UserService userService;
 
 //    @GetMapping("/users")
 //    public ResponseEntity<List<User>> listAll() {
@@ -23,22 +25,22 @@ public class UserController {
 //    }
 
     @GetMapping("/users/get/{id}")
-    public ResponseEntity<DBUserDetails> listOne(@PathVariable Integer id) {
-        DBUserDetails user = userDetailsRepository.findByID(id);
+    public ResponseEntity<User> listOne(@PathVariable Integer id) {
+        Optional<User> user = userService.find(id);
 
-        if(user != null) {
-            return ResponseEntity.ok(user);
+        if(user.isPresent()) {
+            return ResponseEntity.ok(user.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/users/get/{email}")
-    public ResponseEntity<DBUserDetails> listOne(@PathVariable String email) {
-        DBUserDetails user = userDetailsRepository.loadUserByUsername(email);
+    public ResponseEntity<User> listOne(@PathVariable String email) {
+        Optional<User> user = userService.findByUsername(email);
 
-        if(user != null) {
-            return ResponseEntity.ok(user);
+        if(user.isPresent()) {
+            return ResponseEntity.ok(user.get());
         } else {
             return ResponseEntity.notFound().build();
         }
