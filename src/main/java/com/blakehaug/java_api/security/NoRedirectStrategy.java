@@ -1,4 +1,4 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

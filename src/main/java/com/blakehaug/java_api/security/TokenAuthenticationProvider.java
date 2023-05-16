@@ -1,5 +1,6 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.security;
 
+import com.blakehaug.java_api.user.UserAuthenticationService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;

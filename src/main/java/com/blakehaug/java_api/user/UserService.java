@@ -1,14 +1,12 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class UserService implements UserCrudService{
-
     @Autowired
     private UserRepository userRepository;
 
@@ -18,7 +16,7 @@ public class UserService implements UserCrudService{
     }
 
     @Override
-    public Optional<User> find(Integer id) {
+    public Optional<User> find(String id) {
         return userRepository.findById(id);
     }
 

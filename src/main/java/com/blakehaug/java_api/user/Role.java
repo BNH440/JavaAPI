@@ -1,4 +1,4 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

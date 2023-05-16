@@ -1,4 +1,4 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.user;
 
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +19,19 @@ public class PublicUsersController {
             @RequestParam("username") final String username,
             @RequestParam("password") final String password) {
         users.save(
-                new User(
+                new User(username,
                         username,
-                        password,
-                        new String[]{"ROLE_USER"})); // TODO fix roles
-        )
+                        password)
+        );
+        return login(username, password);
     }
-    )
+
+    @PostMapping("/login")
+    String login(
+            @RequestParam("username") final String username,
+            @RequestParam("password") final String password) {
+        return authentication
+                .login(username, password)
+                .orElseThrow(() -> new RuntimeException("invalid login and/or password"));
+    }
 }

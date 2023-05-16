@@ -1,8 +1,7 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.user;
 
 import javax.persistence.*;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
@@ -10,8 +9,7 @@ import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import lombok.Builder;
+
 import java.util.*;
 
 @Entity
@@ -19,7 +17,7 @@ import java.util.*;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @Column(nullable = false)
     private String email;
@@ -41,14 +39,18 @@ public class User implements UserDetails {
         )
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String password, Integer[] roles) {
+    public User(String id, String username, String password) {
+        this.id = id;
         this.email = username;
         this.password = password;
         this.enabled = 1;
-        // TODO add roles
     }
 
-    public Integer getId() {
+    public User() {
+
+    }
+
+    public String getId() {
         return id;
     }
 

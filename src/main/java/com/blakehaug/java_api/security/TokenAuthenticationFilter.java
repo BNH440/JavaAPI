@@ -1,4 +1,4 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.security;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

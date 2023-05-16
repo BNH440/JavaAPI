@@ -1,4 +1,4 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.security;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +20,7 @@ import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import static java.util.Objects.requireNonNull;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+@SuppressWarnings("unchecked")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
