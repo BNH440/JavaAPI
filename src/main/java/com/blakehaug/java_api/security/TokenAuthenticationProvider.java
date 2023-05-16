@@ -1,6 +1,7 @@
 package com.blakehaug.java_api.security;
 
 import com.blakehaug.java_api.user.UserAuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,8 @@ import java.util.Optional;
 
 @Component
 public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
-    UserAuthenticationService auth;
+    @Autowired
+    TokenAuthenticationService auth;
 
     @Override
     protected void additionalAuthenticationChecks(final UserDetails d, final UsernamePasswordAuthenticationToken auth) {

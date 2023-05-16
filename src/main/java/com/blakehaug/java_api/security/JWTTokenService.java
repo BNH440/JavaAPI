@@ -60,7 +60,7 @@ public class JWTTokenService implements Clock, TokenService {
         return Jwts
                 .builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, secretKey) // TODO: change signing key to 256bit
                 .compressWith(COMPRESSION_CODEC)
                 .compact();
     }

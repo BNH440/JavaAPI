@@ -16,13 +16,12 @@ import java.util.*;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(nullable = false)
-    private String email;
+    private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String name;
 
     @Column(nullable = false)
@@ -41,7 +40,7 @@ public class User implements UserDetails {
 
     public User(String id, String username, String password) {
         this.id = id;
-        this.email = username;
+        this.username = username;
         this.password = password;
         this.enabled = 1;
     }
@@ -63,17 +62,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
