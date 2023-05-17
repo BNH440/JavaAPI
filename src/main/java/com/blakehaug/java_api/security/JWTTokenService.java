@@ -4,10 +4,13 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableMap;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.compression.GzipCompressionCodec;
+import io.jsonwebtoken.security.Keys;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 
@@ -21,17 +24,16 @@ public class JWTTokenService implements Clock, TokenService {
     String issuer;
     int expirationSec;
     int clockSkewSec;
-    String secretKey;
+    SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     JWTTokenService(@Value("${jwt.issuer:blakehaug}") final String issuer,
                     @Value("${jwt.expiration-sec:3600}") final int expirationSec,
-                    @Value("${jwt.clock-skew-sec:300}") final int clockSkewSec,
-                    @Value("${jwt.secret:secret}") final String secret) {
+                    @Value("${jwt.clock-skew-sec:300}") final int clockSkewSec)
+    {
         super();
         this.issuer = issuer;
         this.expirationSec = expirationSec;
         this.clockSkewSec = clockSkewSec;
-        this.secretKey = secret;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class JWTTokenService implements Clock, TokenService {
         return Jwts
                 .builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, secretKey) // TODO: change signing key to 256bit
+                .signWith(secretKey)
                 .compressWith(COMPRESSION_CODEC)
                 .compact();
     }
