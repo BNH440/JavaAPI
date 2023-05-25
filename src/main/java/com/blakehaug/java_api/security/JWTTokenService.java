@@ -7,7 +7,11 @@ import io.jsonwebtoken.impl.compression.GzipCompressionCodec;
 import io.jsonwebtoken.security.Keys;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -68,7 +72,7 @@ public class JWTTokenService implements Clock, TokenService {
     }
 
     @Override
-    public Map<String, String> verify(final String token) {
+    public Map<String, String> verify(final String token) throws JwtException {
 //        final JwtParser parser = Jwts
 //                .parserBuilder()
 //                .requireIssuer(issuer)
@@ -89,7 +93,6 @@ public class JWTTokenService implements Clock, TokenService {
         	System.out.println("Token is expired");
 
             throw new JwtException("Token is expired");
-
         } else {
         	System.out.println("Token is valid");
         }

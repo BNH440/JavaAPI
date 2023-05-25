@@ -118,4 +118,8 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
+    public boolean isAdmin() {
+        return getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
+    }
 }
