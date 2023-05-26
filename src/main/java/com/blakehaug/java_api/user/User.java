@@ -1,5 +1,6 @@
 package com.blakehaug.java_api.user;
 
+import com.blakehaug.java_api.Student;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private int enabled;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    private Student student;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
@@ -38,6 +43,13 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.enabled = 1;
+    }
+
+    public User(String id, String username, String password, Student student) {
+        this.id = id; // TODO add password encryption
+        this.username = username;
+        this.password = password;
+        this.student = student;
     }
 
     public User() {
@@ -116,5 +128,13 @@ public class User implements UserDetails {
 
     public boolean isAdmin() {
         return getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }

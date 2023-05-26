@@ -1,5 +1,7 @@
 package com.blakehaug.java_api;
 
+import com.blakehaug.java_api.user.User;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,9 @@ public class Student {
     private Integer id;
     private String name;
     private String email;
+
+    @OneToOne(mappedBy = "student")
+    private User user;
 
     public Integer getId() {
         return id;

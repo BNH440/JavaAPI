@@ -1,6 +1,7 @@
 package com.blakehaug.java_api;
 
 import com.blakehaug.java_api.user.RoleRepository;
+import com.blakehaug.java_api.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +26,10 @@ public class StudentController {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    UserService users;
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/students")
     public ResponseEntity<List<Student>> listAll() {
         List<Student> students = studentRepo.findAll();
@@ -36,14 +41,17 @@ public class StudentController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/students/get/{id}")
     public ResponseEntity<Student> listOne(@PathVariable Integer id, HttpServletRequest request, Principal principal){
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        boolean authorized = authorities.contains(new SimpleGrantedAuthority("ADMIN"));
+        boolean admin = authorities.contains(new SimpleGrantedAuthority("ADMIN"));
+
+        if(!(admin || users.findByUsername(principal.getName()).get().getStudent().getId().equals(id))) {
+            return ResponseEntity.status(403).build();
+        }
 
         Optional<Student> student = studentRepo.findById(id);
 
@@ -53,7 +61,8 @@ public class StudentController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/students/create")
     public ResponseEntity<Student> create(@RequestBody Student student) {
         Student newStudent = studentRepo.save(student);

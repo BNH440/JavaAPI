@@ -26,7 +26,7 @@ public class JWTTokenService implements Clock, TokenService {
     SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     JWTTokenService(@Value("${jwt.issuer:blakehaug}") final String issuer,
-                    @Value("${jwt.expiration-sec:15}") final int expirationSec,
+                    @Value("${jwt.expiration-sec:86400}") final int expirationSec,
                     @Value("${jwt.clock-skew-sec:300}") final int clockSkewSec)
     {
         super();
@@ -68,14 +68,6 @@ public class JWTTokenService implements Clock, TokenService {
 
     @Override
     public Map<String, String> verify(final String token) throws JwtException {
-//        final JwtParser parser = Jwts
-//                .parserBuilder()
-//                .requireIssuer(issuer)
-//                .setClock(this)
-//                .setAllowedClockSkewSeconds(clockSkewSec)
-//                .setSigningKey(secretKey)
-//                .build();
-        //validate jwt
         final JwtParser parser = Jwts
                 .parserBuilder()
                 .requireIssuer(issuer)
