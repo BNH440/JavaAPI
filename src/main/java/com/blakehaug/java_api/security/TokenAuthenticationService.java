@@ -2,10 +2,8 @@ package com.blakehaug.java_api.security;
 
 import com.blakehaug.java_api.user.User;
 import com.blakehaug.java_api.user.UserAuthenticationService;
-import com.blakehaug.java_api.user.UserCrudService;
 import com.blakehaug.java_api.user.UserService;
 import com.google.common.collect.ImmutableMap;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

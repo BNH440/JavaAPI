@@ -1,15 +1,10 @@
 package com.blakehaug.java_api.user;
 
-import javax.persistence.*;
-
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
@@ -39,7 +34,7 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
     public User(String id, String username, String password) {
-        this.id = id;
+        this.id = id; // TODO add password encryption
         this.username = username;
         this.password = password;
         this.enabled = 1;

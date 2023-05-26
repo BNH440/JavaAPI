@@ -1,6 +1,5 @@
 package com.blakehaug.java_api.security;
 
-import com.blakehaug.java_api.user.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;

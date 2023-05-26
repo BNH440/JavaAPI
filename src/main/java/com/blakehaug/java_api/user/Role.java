@@ -1,10 +1,6 @@
 package com.blakehaug.java_api.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
-
-import java.util.Collection;
 
 @Entity
 @Table(name = "roles")
