@@ -39,14 +39,14 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
     public User(String id, String username, String password) {
-        this.id = id; // TODO add password encryption
+        this.id = id;
         this.username = username;
         this.password = password;
         this.enabled = 1;
     }
 
     public User(String id, String username, String password, Student student) {
-        this.id = id; // TODO add password encryption
+        this.id = id;
         this.username = username;
         this.password = password;
         this.student = student;

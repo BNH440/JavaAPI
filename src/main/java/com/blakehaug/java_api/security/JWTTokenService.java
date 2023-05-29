@@ -16,6 +16,7 @@ import java.util.Map;
 import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
 
 
+// The JWTTokenservice class creates and validates JSON Web Tokens (JWT).
 @Service
 public class JWTTokenService implements Clock, TokenService {
     private static final GzipCompressionCodec COMPRESSION_CODEC = new GzipCompressionCodec();
@@ -23,10 +24,10 @@ public class JWTTokenService implements Clock, TokenService {
     String issuer;
     int expirationSec;
     int clockSkewSec;
-    SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256); // creating a secret signing key for the tokens
 
     JWTTokenService(@Value("${jwt.issuer:blakehaug}") final String issuer,
-                    @Value("${jwt.expiration-sec:86400}") final int expirationSec,
+                    @Value("${jwt.expiration-sec:86400}") final int expirationSec, // 1 day until the jwt expires
                     @Value("${jwt.clock-skew-sec:300}") final int clockSkewSec)
     {
         super();
@@ -45,7 +46,7 @@ public class JWTTokenService implements Clock, TokenService {
         return newToken(attributes, expirationSec);
     }
 
-    private String newToken(final Map<String, String> attributes, final int expiresInSec){
+    private String newToken(final Map<String, String> attributes, final int expiresInSec){ // creates a new token signed with the secret key
         final DateTime now = DateTime.now();
         final Claims claims = Jwts
                 .claims()
@@ -66,7 +67,7 @@ public class JWTTokenService implements Clock, TokenService {
                 .compact();
     }
 
-    @Override
+    @Override // Verify that the token is still valid and was created by this server, then return the data of the user associated with the token
     public Map<String, String> verify(final String token) throws JwtException {
         final JwtParser parser = Jwts
                 .parserBuilder()
@@ -85,19 +86,6 @@ public class JWTTokenService implements Clock, TokenService {
         }
 
         return parseClaims(() -> parser.parseClaimsJws(token).getBody());
-    }
-
-    @Override
-    public Map<String, String> untrusted(final String token) {
-        final JwtParser parser = Jwts
-                .parserBuilder()
-                .requireIssuer(issuer)
-                .setClock(this)
-                .setAllowedClockSkewSeconds(clockSkewSec)
-                .build();
-
-        final String withoutSignature = substringBeforeLast(token, ".") + ".";
-        return parseClaims(() -> parser.parseClaimsJwt(withoutSignature).getBody());
     }
 
     private static Map<String, String> parseClaims(final Supplier<Claims> toClaims) {

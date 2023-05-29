@@ -7,7 +7,5 @@ public interface TokenService {
 
     String expiring(Map<String, String> attributes);
 
-    Map<String, String> untrusted(String token);
-
     Map<String, String> verify(String token);
 }
