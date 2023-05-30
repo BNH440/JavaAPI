@@ -13,9 +13,6 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
-
-
 // The JWTTokenservice class creates and validates JSON Web Tokens (JWT).
 @Service
 public class JWTTokenService implements Clock, TokenService {
@@ -37,12 +34,12 @@ public class JWTTokenService implements Clock, TokenService {
     }
 
     @Override
-    public String permanent(final Map<String, String> attributes) {
+    public String permanent(final Map<String, String> attributes) { // creates a non-expiring token
         return newToken(attributes, 0);
     }
 
     @Override
-    public String expiring(final Map<String, String> attributes) {
+    public String expiring(final Map<String, String> attributes) { // creates a token that expires after expirationSec seconds
         return newToken(attributes, expirationSec);
     }
 
@@ -88,7 +85,7 @@ public class JWTTokenService implements Clock, TokenService {
         return parseClaims(() -> parser.parseClaimsJws(token).getBody());
     }
 
-    private static Map<String, String> parseClaims(final Supplier<Claims> toClaims) {
+    private static Map<String, String> parseClaims(final Supplier<Claims> toClaims) { // Parses the json data stored in the token and returns a map
         try {
             final Claims claims = toClaims.get();
             final ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
@@ -102,7 +99,7 @@ public class JWTTokenService implements Clock, TokenService {
     }
 
     @Override
-    public Date now() {
+    public Date now() { // Returns the current time
         return DateTime.now().toDate();
     }
 }

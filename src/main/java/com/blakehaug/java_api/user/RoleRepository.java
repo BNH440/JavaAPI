@@ -6,6 +6,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query(value = "SELECT r FROM Role r WHERE r.name = :name")
-    public Role getRoleByName(@Param("name") String name);
+    public Role getRoleByName(@Param("name") String name); // uses the above sql query to find a role by name
 }
 

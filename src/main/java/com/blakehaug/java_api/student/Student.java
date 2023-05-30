@@ -1,4 +1,4 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.student;
 
 import com.blakehaug.java_api.user.User;
 
@@ -9,12 +9,12 @@ import javax.persistence.*;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id; // the id (primary key) is generated automatically (in sequential order)
     private String name;
     private String email;
 
     @OneToOne(mappedBy = "student")
-    private User user;
+    private User user; // one user is associated with each student
 
     public Integer getId() {
         return id;

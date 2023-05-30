@@ -18,15 +18,15 @@ public class TokenAuthenticationService implements UserAuthenticationService {
     UserService users;
 
     @Override
-    public Optional<String> login(final String username, final String password) {
+    public Optional<String> login(final String username, final String password) { // creates a token if the username and password are correct
         return users
-                .findByUsername(username)
-                .filter(user -> Objects.equals(password, user.getPassword()))
-                .map(user -> tokens.expiring(ImmutableMap.of("username", username)));
+                .findByUsername(username) // gets user from db
+                .filter(user -> Objects.equals(password, user.getPassword())) // checks if the password is correct
+                .map(user -> tokens.expiring(ImmutableMap.of("username", username))); // creates a token
     }
 
     @Override
-    public Optional<User> findByToken(final String token){
+    public Optional<User> findByToken(final String token){ // checks if the token is valid and returns the user
         return Optional
                 .of(tokens.verify(token))
                 .map(map -> map.get("username"))
@@ -34,6 +34,6 @@ public class TokenAuthenticationService implements UserAuthenticationService {
     }
 
     @Override
-    public void logout(User user) {
+    public void logout(User user) { // TODO: not implemented
     }
 }

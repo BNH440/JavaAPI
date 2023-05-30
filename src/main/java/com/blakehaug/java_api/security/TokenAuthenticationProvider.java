@@ -18,7 +18,7 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
     protected void additionalAuthenticationChecks(final UserDetails d, final UsernamePasswordAuthenticationToken auth) {
     }
 
-    @Override
+    @Override // tries to authenticate a user using their token
     protected UserDetails retrieveUser(final String username, final UsernamePasswordAuthenticationToken authentication) {
         final Object token = authentication.getCredentials();
         return Optional

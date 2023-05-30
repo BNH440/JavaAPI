@@ -27,9 +27,9 @@ import static java.util.Objects.requireNonNull;
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final RequestMatcher publicURLs = new OrRequestMatcher(
-            new AntPathRequestMatcher("/public/**")
+            new AntPathRequestMatcher("/public/**") // Allows access to the public endpoints with no authentication
     );
-    private static final RequestMatcher protectedURLs = new NegatedRequestMatcher(publicURLs);
+    private static final RequestMatcher protectedURLs = new NegatedRequestMatcher(publicURLs); // Protects all endpoints that are not /public
 
     TokenAuthenticationProvider provider;
 
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(final WebSecurity web) {
+    public void configure(final WebSecurity web) { // Ignores public endpoints for requiring authentication
         web.ignoring().requestMatchers(publicURLs);
     }
 

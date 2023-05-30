@@ -11,17 +11,17 @@ public class UserService implements UserCrudService{
     private UserRepository userRepository;
 
     @Override
-    public User save(User user) {
+    public User save(User user) { // saves the user to the db
         return userRepository.save(user);
     }
 
     @Override
-    public Optional<User> find(String id) {
+    public Optional<User> find(String id) { // finds the user by id
         return userRepository.findById(id);
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> findByUsername(String username) { // finds the user by username
         User user = userRepository.getUserByUsername(username);
 
         if(user == null) {

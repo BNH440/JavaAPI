@@ -1,4 +1,4 @@
-package com.blakehaug.java_api;
+package com.blakehaug.java_api.student;
 
 import com.blakehaug.java_api.user.RoleRepository;
 import com.blakehaug.java_api.user.UserService;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class StudentController {
+public class StudentController { // sets up student endpoints
     @Autowired
     private StudentRepository studentRepo;
 
@@ -29,7 +29,7 @@ public class StudentController {
     @Autowired
     UserService users;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')") // restricts listing all students to only users with the ADMIN role
     @GetMapping("/students")
     public ResponseEntity<List<Student>> listAll() {
         List<Student> students = studentRepo.findAll();
@@ -41,7 +41,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/students/get/{id}")
+    @GetMapping("/students/get/{id}") // gets a student by id
     public ResponseEntity<Student> listOne(@PathVariable Integer id, HttpServletRequest request, Principal principal){
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
@@ -51,7 +51,7 @@ public class StudentController {
 
         if(!(admin || users.findByUsername(principal.getName()).get().getStudent().getId().equals(id))) {
             return ResponseEntity.status(403).build();
-        }
+        } // restricts listing one student to only users with the ADMIN role or the user with the given student id
 
         Optional<Student> student = studentRepo.findById(id);
 
@@ -62,8 +62,8 @@ public class StudentController {
         }
     }
     
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/students/create")
+    @PreAuthorize("hasAuthority('ADMIN')") // restricts creating a student to only users with the ADMIN role TODO change later to add creation to the signup process
+    @PostMapping("/students/create") // creates a student
     public ResponseEntity<Student> create(@RequestBody Student student) {
         Student newStudent = studentRepo.save(student);
         return ResponseEntity.ok(newStudent);

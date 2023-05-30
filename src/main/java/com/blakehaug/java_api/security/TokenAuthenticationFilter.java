@@ -24,16 +24,16 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
     public Authentication attemptAuthentication(
             final HttpServletRequest request,
             final HttpServletResponse response) {
-        final String param = ofNullable(request.getHeader("Authorization"))
+        final String param = ofNullable(request.getHeader("Authorization")) // checks for Authorization header
                 .orElse(request.getParameter("t"));
 
         final String token = ofNullable(param)
                 .map(value -> removeStart(value, "Bearer"))
                 .map(String::trim)
-                .orElseThrow(() -> new BadCredentialsException("Missing Authentication Token"));
+                .orElseThrow(() -> new BadCredentialsException("Missing Authentication Token")); // checks that a token is present in the header
 
         final Authentication auth = new UsernamePasswordAuthenticationToken(token, token);
-        return getAuthenticationManager().authenticate(auth);
+        return getAuthenticationManager().authenticate(auth); // passes the token to the authentication manager to login
     }
 
     @Override

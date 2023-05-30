@@ -1,6 +1,6 @@
 package com.blakehaug.java_api.user;
 
-import com.blakehaug.java_api.Student;
+import com.blakehaug.java_api.student.Student;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,9 +10,9 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User implements UserDetails { // Defines the structure of a user in the database
     @Id
-    private String id;
+    private String id; // matches username in my implementation
 
     @Column(nullable = false)
     private String username;
@@ -26,9 +26,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private int enabled;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL) // sets up the sql relationship between user and student
     @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Student student;
+    private Student student; // each user can be assigned to a single student profile
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -36,7 +36,7 @@ public class User implements UserDetails {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
         )
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>(); // each user can have multiple roles and each role can be assigned to multiple users
 
     public User(String id, String username, String password) {
         this.id = id;
@@ -45,7 +45,7 @@ public class User implements UserDetails {
         this.enabled = 1;
     }
 
-    public User(String id, String username, String password, Student student) {
+    public User(String id, String username, String password, Student student) { // TODO implement
         this.id = id;
         this.username = username;
         this.password = password;
